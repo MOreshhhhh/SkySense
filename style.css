@@ -1,31 +1,53 @@
 body {
-  margin: 0;
   font-family: Arial, sans-serif;
-  background: #f9f9f9;
-  color: #333;
+  background: #f4f4f9;
+  margin: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
 }
-nav {
-  background: #007bff;
-  color: white;
-  padding: 1rem;
+
+.container {
+  background: white;
+  padding: 30px;
+  border-radius: 10px;
+  box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+  text-align: center;
+  width: 350px;
 }
-main {
-  padding: 2rem;
+
+input {
+  padding: 10px;
+  width: 65%;
+  border-radius: 5px;
+  border: 1px solid #ccc;
 }
+
 button {
   padding: 10px 15px;
   border: none;
-  border-radius: 5px;
-  background: #007bff;
+  background: #007BFF;
   color: white;
+  border-radius: 5px;
   cursor: pointer;
 }
+
 button:hover {
   background: #0056b3;
 }
-footer {
-  margin-top: 50px;
-  padding: 1rem;
-  text-align: center;
-  background: #eee;
+
+#results {
+  margin-top: 20px;
+  text-align: left;
+}
+
+.aqi-good {
+  color: green;
+}
+.aqi-moderate {
+  color: orange;
+}
+.aqi-bad {
+  color: red;
 }

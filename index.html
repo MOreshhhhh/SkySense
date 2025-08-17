@@ -2,27 +2,22 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>My App</title>
+  <title>SkySense – Air Quality Checker</title>
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
-  <nav>
-    <h1>Air Pollution Checker</h1>
-  </nav>
+  <div class="container">
+    <h1>SkySense 🌍</h1>
+    <p>Check the air quality in any city</p>
 
-  <main>
-    <section id="content">
-      <h2>Welcome 👋</h2>
-      <p>This will be our playground for weather, air quality, or agro tools.</p>
-      <button onclick="sayHello()">Click me</button>
-    </section>
-  </main>
+    <div class="input-group">
+      <input type="text" id="city" placeholder="Enter city name">
+      <button onclick="getAirQuality()">Check AQI</button>
+    </div>
 
-  <footer>
-    <p>© 2025 Moresh</p>
-  </footer>
+    <div id="results"></div>
+  </div>
 
   <script src="script.js"></script>
 </body>
 </html>
-*
