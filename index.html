@@ -1,22 +1,66 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <title>SkySense – Air Quality Checker</title>
-  <link rel="stylesheet" href="style.css">
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>SkySense — Air Quality</title>
+  <link rel="stylesheet" href="style.css"/>
 </head>
-<body>
-  <div class="container">
-    <h1>SkySense 🌍</h1>
-    <p>Check the air quality in any city</p>
+<body class="bg-animated aqi-good-bg">
+  <header>
+    <h1>🌿 SkySense</h1>
+    <p>Track your air. Breathe smarter.</p>
+  </header>
 
-    <div class="input-group">
-      <input type="text" id="city" placeholder="Enter city name">
-      <button onclick="getAirQuality()">Check AQI</button>
+  <main class="container">
+    <div class="search-box">
+      <input type="text" id="cityInput" placeholder="Enter city name…" />
+      <button id="searchBtn">Check</button>
     </div>
 
-    <div id="results"></div>
-  </div>
+    <!-- City info card -->
+    <section id="cityCard" class="city-card hidden">
+      <div class="city-left">
+        <div class="city-title">
+          <span id="cityName">—</span>
+          <span id="countryFlag" class="flag">🏳️</span>
+        </div>
+        <div id="adminArea" class="city-subtle">—</div>
+        <div id="coords" class="city-subtle">—</div>
+      </div>
+      <div class="city-right">
+        <div class="badge" id="aqiLabel">AQI: —</div>
+      </div>
+    </section>
+
+    <!-- Loader -->
+    <div id="loader" class="loader hidden"></div>
+
+    <!-- AQI gauge + banner -->
+    <section id="aqiSection" class="aqi-section hidden">
+      <div class="gauge-wrap">
+        <svg id="aqiGauge" viewBox="0 0 120 120">
+          <!-- background ring -->
+          <circle cx="60" cy="60" r="52" class="gauge-bg"/>
+          <!-- progress ring -->
+          <circle cx="60" cy="60" r="52" class="gauge-fg" id="gaugeProgress"/>
+          <!-- center label -->
+          <text x="60" y="60" text-anchor="middle" dominant-baseline="central" id="gaugeText" class="gauge-text">—</text>
+        </svg>
+      </div>
+      <div id="aqiBanner" class="aqi-banner">—</div>
+    </section>
+
+    <!-- Pollutants grid -->
+    <section id="pollutants" class="pollutants hidden"></section>
+
+    <!-- Health advice -->
+    <section id="health" class="health-msg hidden">—</section>
+  </main>
+
+  <footer>
+    <p>Powered by OpenWeather • Built with ❤️</p>
+  </footer>
 
   <script src="script.js"></script>
 </body>

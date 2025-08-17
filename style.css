@@ -1,53 +1,169 @@
+/* Reset */
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+:root{
+  --good1:#8fd3f4; --good2:#84fab0;
+  --fair1:#f6d365; --fair2:#fda085;
+  --moderate1:#f7971e; --moderate2:#ffd200;
+  --bad1:#c31432; --bad2:#240b36;
+
+  --card-bg:#ffffff;
+  --muted:#6b7280;
+  --text:#111827;
+}
+
+/* Animated background with switchable themes */
 body {
-  font-family: Arial, sans-serif;
-  background: #f4f4f9;
-  margin: 0;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  height: 100vh;
+  font-family: "Segoe UI", system-ui, -apple-system, Arial, sans-serif;
+  min-height: 100vh;
+  display:flex; flex-direction:column; align-items:center;
+  transition: background 0.4s ease;
+}
+.bg-animated{
+  background-size: 400% 400%;
+  animation: gradientShift 16s ease infinite;
+}
+@keyframes gradientShift{
+  0%{background-position:0% 50%}
+  50%{background-position:100% 50%}
+  100%{background-position:0% 50%}
 }
 
-.container {
-  background: white;
-  padding: 30px;
-  border-radius: 10px;
-  box-shadow: 0 5px 15px rgba(0,0,0,0.1);
-  text-align: center;
-  width: 350px;
+/* Background palettes by AQI */
+.aqi-good-bg{ background-image: linear-gradient(135deg,var(--good1),var(--good2)); }
+.aqi-fair-bg{ background-image: linear-gradient(135deg,var(--fair1),var(--fair2)); }
+.aqi-moderate-bg{ background-image: linear-gradient(135deg,var(--moderate1),var(--moderate2)); }
+.aqi-bad-bg{ background-image: linear-gradient(135deg,var(--bad1),var(--bad2)); }
+
+header{ text-align:center; color:#fff; padding:24px 12px 12px; }
+header h1{ font-size:2rem; letter-spacing:0.2px; }
+header p{ opacity:.95; margin-top:6px; }
+
+.container{
+  width:92%; max-width:760px;
+  background: var(--card-bg);
+  border-radius: 20px;
+  box-shadow: 0 12px 32px rgba(0,0,0,.18);
+  padding: 20px;
+  margin: 16px auto 28px;
 }
 
-input {
-  padding: 10px;
-  width: 65%;
-  border-radius: 5px;
-  border: 1px solid #ccc;
+/* Search */
+.search-box{ display:flex; gap:8px; justify-content:center; }
+.search-box input{
+  flex:1; max-width:520px; padding:12px 16px;
+  border:1px solid #d1d5db; border-radius:999px;
+  outline:none; font-size:1rem;
+  transition:box-shadow .25s,border-color .25s;
+}
+.search-box input:focus{
+  border-color:#3b82f6;
+  box-shadow:0 0 12px rgba(59,130,246,.35);
+}
+.search-box button{
+  padding:12px 18px; border:none; border-radius:999px;
+  background:#2563eb; color:#fff; font-weight:600; cursor:pointer;
+  transition: transform .1s, box-shadow .2s, background .2s;
+}
+.search-box button:hover{ background:#1e40af; box-shadow:0 0 10px rgba(59,130,246,.45); }
+.search-box button:active{ transform:translateY(1px); }
+
+/* City card */
+.city-card{
+  display:flex; justify-content:space-between; align-items:center;
+  gap:12px; padding:14px 16px; margin-top:14px;
+  border-radius:16px; background:#f8fafc; border:1px solid #e5e7eb;
+  animation: fadeIn .5s ease both;
+}
+.city-left{ text-align:left; }
+.city-title{ display:flex; align-items:center; gap:8px; font-weight:700; font-size:1.1rem; color:var(--text); }
+.flag{ font-size:1.3rem; }
+.city-subtle{ color:var(--muted); font-size:.92rem; margin-top:2px; }
+.badge{
+  padding:6px 10px; border-radius:999px; font-weight:700; color:#fff;
+  background:#6b7280; font-size:.9rem;
+}
+.hidden{ display:none; }
+
+/* Loader */
+.loader{
+  border:6px solid #f3f4f6;
+  border-top:6px solid #2563eb;
+  border-radius:50%;
+  width:46px; height:46px; margin:16px auto;
+  animation:spin 1s linear infinite;
+}
+@keyframes spin{ to{ transform: rotate(360deg); } }
+
+/* AQI gauge + banner */
+.aqi-section{
+  display:grid; grid-template-columns:160px 1fr; gap:16px; align-items:center;
+  margin-top:16px;
+}
+.gauge-wrap{
+  width:160px; height:160px; display:flex; align-items:center; justify-content:center;
+}
+#gaugeProgress{ transform: rotate(-90deg); transform-origin: 50% 50%; }
+
+.gauge-bg{
+  fill:none; stroke:#e5e7eb; stroke-width:12;
+}
+.gauge-fg{
+  fill:none; stroke:#10b981; stroke-width:12; stroke-linecap:round;
+  transition: stroke .3s ease, stroke-dashoffset .6s ease;
+}
+.gauge-text{
+  font-size:24px; fill:#111827; font-weight:700;
 }
 
-button {
-  padding: 10px 15px;
-  border: none;
-  background: #007BFF;
-  color: white;
-  border-radius: 5px;
-  cursor: pointer;
+.aqi-banner{
+  padding:14px; border-radius:14px; color:#fff; font-weight:700;
+  display:flex; align-items:center; justify-content:space-between; gap:10px;
+  animation: popIn .6s ease both;
 }
+.aqi-chip{ padding:6px 10px; border-radius:999px; font-size:.9rem; font-weight:700; }
+.aqi-good{ background:#16a34a; }
+.aqi-fair{ background:#facc15; color:#111; }
+.aqi-moderate{ background:#f59e0b; }
+.aqi-bad{ background:#dc2626; }
 
-button:hover {
-  background: #0056b3;
-}
+@keyframes popIn{ from{opacity:0; transform:scale(.96)} to{opacity:1; transform:scale(1)} }
+@keyframes fadeIn{ from{opacity:0; transform:translateY(6px)} to{opacity:1; transform:translateY(0)} }
 
-#results {
-  margin-top: 20px;
-  text-align: left;
+/* Pollutants grid */
+.pollutants{
+  margin-top:16px; display:grid;
+  grid-template-columns: repeat(3, 1fr); gap:12px;
 }
+.card{
+  background:#f9fafb; border:1px solid #e5e7eb; border-radius:14px; padding:12px;
+  text-align:center; transition: transform .2s ease, box-shadow .2s ease;
+  animation: fadeIn .5s ease both;
+}
+.card:hover{ transform: translateY(-2px); box-shadow:0 8px 20px rgba(0,0,0,.08); }
+.card .icon{ font-size:20px; }
+.card .label{ font-weight:700; margin-top:4px; color:var(--text); }
+.card .value{ margin-top:4px; color:#111; font-weight:600; }
+.progress{ height:8px; background:#e5e7eb; border-radius:999px; overflow:hidden; margin-top:8px; }
+.fill{ height:100%; width:0; background:#2563eb; transition: width .6s ease; }
 
-.aqi-good {
-  color: green;
+/* Health notice */
+.health-msg{
+  margin-top:16px; padding:14px; border-radius:12px; font-weight:700; text-align:center;
 }
-.aqi-moderate {
-  color: orange;
+.notice-good{ background:#dcfce7; color:#14532d; }
+.notice-warn{ background:#fff7ed; color:#7c2d12; }
+.notice-bad{ background:#fee2e2; color:#7f1d1d; }
+
+/* Responsive */
+@media (max-width: 860px){
+  .aqi-section{ grid-template-columns: 1fr; justify-items:center; text-align:center; }
+  .aqi-banner{ width:100%; }
 }
-.aqi-bad {
-  color: red;
+@media (max-width: 540px){
+  .pollutants{ grid-template-columns: repeat(2, 1fr); }
+}
+@media (max-width: 400px){
+  .pollutants{ grid-template-columns: 1fr; }
+  .container{ padding:16px; }
 }
