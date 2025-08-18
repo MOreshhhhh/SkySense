@@ -1,169 +1,131 @@
-/* Reset */
-* { margin: 0; padding: 0; box-sizing: border-box; }
-
+/* Base */
+* { box-sizing: border-box; }
 :root{
-  --good1:#8fd3f4; --good2:#84fab0;
-  --fair1:#f6d365; --fair2:#fda085;
-  --moderate1:#f7971e; --moderate2:#ffd200;
-  --bad1:#c31432; --bad2:#240b36;
-
-  --card-bg:#ffffff;
-  --muted:#6b7280;
-  --text:#111827;
+  --glass: rgba(255,255,255,.12);
+  --glass-strong: rgba(255,255,255,.18);
+  --text:#0f172a;
 }
-
-/* Animated background with switchable themes */
-body {
-  font-family: "Segoe UI", system-ui, -apple-system, Arial, sans-serif;
-  min-height: 100vh;
-  display:flex; flex-direction:column; align-items:center;
-  transition: background 0.4s ease;
+html,body{ height:100% }
+body{
+  margin:0;
+  font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Arial;
+  color:#fff;
+  background: linear-gradient(135deg,#4facfe,#00f2fe);
+  background-size: 200% 200%;
+  animation: bgShift 18s ease infinite;
+  transition: background 800ms ease;
+  display:flex; align-items:flex-start; justify-content:center; padding:24px;
 }
-.bg-animated{
-  background-size: 400% 400%;
-  animation: gradientShift 16s ease infinite;
-}
-@keyframes gradientShift{
-  0%{background-position:0% 50%}
-  50%{background-position:100% 50%}
-  100%{background-position:0% 50%}
-}
+@keyframes bgShift{0%{background-position:0% 50%}50%{background-position:100% 50%}100%{background-position:0% 50%}}
 
-/* Background palettes by AQI */
-.aqi-good-bg{ background-image: linear-gradient(135deg,var(--good1),var(--good2)); }
-.aqi-fair-bg{ background-image: linear-gradient(135deg,var(--fair1),var(--fair2)); }
-.aqi-moderate-bg{ background-image: linear-gradient(135deg,var(--moderate1),var(--moderate2)); }
-.aqi-bad-bg{ background-image: linear-gradient(135deg,var(--bad1),var(--bad2)); }
+/* AQI backgrounds */
+.body-good{ background: linear-gradient(135deg,#a8e063,#56ab2f);}
+.body-fair{ background: linear-gradient(135deg,#fddb92,#d1fdff);}
+.body-moderate{ background: linear-gradient(135deg,#f6d365,#fda085);}
+.body-poor{ background: linear-gradient(135deg,#ff5858,#f09819);}
+.body-verypoor{ background: linear-gradient(135deg,#4b134f,#f00000);}
 
-header{ text-align:center; color:#fff; padding:24px 12px 12px; }
-header h1{ font-size:2rem; letter-spacing:0.2px; }
-header p{ opacity:.95; margin-top:6px; }
+.fade-in{ opacity:0; animation: fadeIn .8s ease forwards }
+@keyframes fadeIn{ to{opacity:1} }
 
-.container{
-  width:92%; max-width:760px;
-  background: var(--card-bg);
-  border-radius: 20px;
-  box-shadow: 0 12px 32px rgba(0,0,0,.18);
+#app{
+  width: min(880px, 94vw);
+  backdrop-filter: blur(6px);
+  background: var(--glass);
+  border: 1px solid rgba(255,255,255,.25);
+  border-radius: 18px;
   padding: 20px;
-  margin: 16px auto 28px;
+  box-shadow: 0 18px 40px rgba(0,0,0,.25);
 }
+
+/* Brand */
+.brand{ margin:0 0 4px; font-size: 1.8rem }
+.tagline{ margin:0 0 16px; opacity:.9 }
 
 /* Search */
-.search-box{ display:flex; gap:8px; justify-content:center; }
-.search-box input{
-  flex:1; max-width:520px; padding:12px 16px;
-  border:1px solid #d1d5db; border-radius:999px;
-  outline:none; font-size:1rem;
-  transition:box-shadow .25s,border-color .25s;
+.search-row{ display:flex; gap:8px; margin-bottom:14px }
+#city-input{
+  flex:1; padding:12px 14px; border-radius:12px; border:none; outline:none;
+  background:#ffffff; color:#111; font-size:1rem;
 }
-.search-box input:focus{
-  border-color:#3b82f6;
-  box-shadow:0 0 12px rgba(59,130,246,.35);
+button{
+  padding:12px 16px; border:none; border-radius:12px; font-weight:800;
+  background:#111827; color:#fff; cursor:pointer;
+  transition: transform .1s ease, opacity .2s ease, box-shadow .2s ease;
 }
-.search-box button{
-  padding:12px 18px; border:none; border-radius:999px;
-  background:#2563eb; color:#fff; font-weight:600; cursor:pointer;
-  transition: transform .1s, box-shadow .2s, background .2s;
+button:hover{ opacity:.95; box-shadow:0 8px 20px rgba(0,0,0,.25) }
+button:active{ transform: translateY(1px) }
+
+/* Loader */
+#loader { display: none; }
+#loader.active { display: flex; }
+.loader{
+  position:fixed; inset:0; background: rgba(0,0,0,.35);
+  flex-direction:column; gap:10px; align-items:center; justify-content:center; z-index:9
 }
-.search-box button:hover{ background:#1e40af; box-shadow:0 0 10px rgba(59,130,246,.45); }
-.search-box button:active{ transform:translateY(1px); }
+.loader p{ font-weight:700 }
+.cloud{
+  width:80px; height:36px; background:#fff; border-radius:18px; position:relative; animation: float 3s ease-in-out infinite
+}
+.cloud::before,.cloud::after{ content:""; position:absolute; background:#fff; border-radius:50% }
+.cloud::before{ width:34px; height:34px; top:-16px; left:8px }
+.cloud::after{ width:40px; height:40px; top:-20px; right:8px }
+@keyframes float{ 50%{ transform: translateY(-6px) } }
 
 /* City card */
 .city-card{
-  display:flex; justify-content:space-between; align-items:center;
-  gap:12px; padding:14px 16px; margin-top:14px;
-  border-radius:16px; background:#f8fafc; border:1px solid #e5e7eb;
-  animation: fadeIn .5s ease both;
+  background: var(--glass-strong);
+  border:1px solid rgba(255,255,255,.3);
+  border-radius:14px; padding:14px; margin:8px 0 14px;
 }
-.city-left{ text-align:left; }
-.city-title{ display:flex; align-items:center; gap:8px; font-weight:700; font-size:1.1rem; color:var(--text); }
-.flag{ font-size:1.3rem; }
-.city-subtle{ color:var(--muted); font-size:.92rem; margin-top:2px; }
-.badge{
-  padding:6px 10px; border-radius:999px; font-weight:700; color:#fff;
-  background:#6b7280; font-size:.9rem;
+.city-card h2{ margin:0; display:flex; align-items:center; gap:8px }
+.flag{ filter: drop-shadow(0 2px 6px rgba(0,0,0,.25)); }
+.aqi-chip{
+  margin-top:8px; display:inline-flex; align-items:center; gap:8px;
+  background:#111827; color:#fff; padding:6px 10px; border-radius:999px; font-weight:800
 }
-.hidden{ display:none; }
+.aqi-chip .sep{ opacity:.5 }
 
-/* Loader */
-.loader{
-  border:6px solid #f3f4f6;
-  border-top:6px solid #2563eb;
-  border-radius:50%;
-  width:46px; height:46px; margin:16px auto;
-  animation:spin 1s linear infinite;
-}
-@keyframes spin{ to{ transform: rotate(360deg); } }
+/* Gauge section */
+.gauge-grid{ display:grid; grid-template-columns: 280px 1fr; gap:14px; align-items:center }
+@media (max-width: 760px){ .gauge-grid{ grid-template-columns: 1fr } }
 
-/* AQI gauge + banner */
-.aqi-section{
-  display:grid; grid-template-columns:160px 1fr; gap:16px; align-items:center;
-  margin-top:16px;
-}
 .gauge-wrap{
-  width:160px; height:160px; display:flex; align-items:center; justify-content:center;
+  background: var(--glass-strong);
+  border:1px solid rgba(255,255,255,.3);
+  border-radius:14px; padding:10px; position:relative;
+  display:flex; align-items:center; justify-content:center
 }
-#gaugeProgress{ transform: rotate(-90deg); transform-origin: 50% 50%; }
-
-.gauge-bg{
-  fill:none; stroke:#e5e7eb; stroke-width:12;
-}
-.gauge-fg{
-  fill:none; stroke:#10b981; stroke-width:12; stroke-linecap:round;
-  transition: stroke .3s ease, stroke-dashoffset .6s ease;
-}
-.gauge-text{
-  font-size:24px; fill:#111827; font-weight:700;
+.gauge-number{
+  position:absolute; left:50%; top:50%; transform: translate(-50%,-10%);
+  font-size: 28px; font-weight:900; text-shadow:0 2px 10px rgba(0,0,0,.25)
 }
 
-.aqi-banner{
-  padding:14px; border-radius:14px; color:#fff; font-weight:700;
-  display:flex; align-items:center; justify-content:space-between; gap:10px;
-  animation: popIn .6s ease both;
+/* Health tip */
+.health-tip{
+  background:#111827; color:#fff; border-radius:14px; padding:14px; font-weight:800; min-height: 90px;
+  display:flex; align-items:center; gap:10px; justify-content:center; text-align:center
 }
-.aqi-chip{ padding:6px 10px; border-radius:999px; font-size:.9rem; font-weight:700; }
-.aqi-good{ background:#16a34a; }
-.aqi-fair{ background:#facc15; color:#111; }
-.aqi-moderate{ background:#f59e0b; }
-.aqi-bad{ background:#dc2626; }
 
-@keyframes popIn{ from{opacity:0; transform:scale(.96)} to{opacity:1; transform:scale(1)} }
-@keyframes fadeIn{ from{opacity:0; transform:translateY(6px)} to{opacity:1; transform:translateY(0)} }
-
-/* Pollutants grid */
+/* Pollutants */
 .pollutants{
-  margin-top:16px; display:grid;
-  grid-template-columns: repeat(3, 1fr); gap:12px;
+  margin-top:14px; display:grid; gap:12px;
+  grid-template-columns: repeat( auto-fit, minmax(140px,1fr) );
 }
 .card{
-  background:#f9fafb; border:1px solid #e5e7eb; border-radius:14px; padding:12px;
-  text-align:center; transition: transform .2s ease, box-shadow .2s ease;
-  animation: fadeIn .5s ease both;
+  background:#ffffff; color:#111; border-radius:12px; padding:12px; text-align:center; border:1px solid #e5e7eb;
+  transition: transform .18s ease, box-shadow .18s ease;
 }
-.card:hover{ transform: translateY(-2px); box-shadow:0 8px 20px rgba(0,0,0,.08); }
-.card .icon{ font-size:20px; }
-.card .label{ font-weight:700; margin-top:4px; color:var(--text); }
-.card .value{ margin-top:4px; color:#111; font-weight:600; }
-.progress{ height:8px; background:#e5e7eb; border-radius:999px; overflow:hidden; margin-top:8px; }
-.fill{ height:100%; width:0; background:#2563eb; transition: width .6s ease; }
+.card:hover{ transform: translateY(-4px) scale(1.02); box-shadow:0 14px 26px rgba(0,0,0,.18) }
+.card .icon{ font-size:22px }
+.card .label{ margin-top:6px; font-weight:900 }
+.card .value{ margin-top:4px; font-weight:700; color:#111827 }
 
-/* Health notice */
-.health-msg{
-  margin-top:16px; padding:14px; border-radius:12px; font-weight:700; text-align:center;
+/* Tooltips */
+.tip{ position:relative; display:inline-block; cursor:help }
+.tip .tiptext{
+  position:absolute; left:50%; transform: translateX(-50%); bottom:120%;
+  background:#111827; color:#fff; padding:8px 10px; border-radius:8px; white-space:nowrap;
+  visibility:hidden; opacity:0; transition: opacity .2s ease; font-size:.9rem; z-index:2
 }
-.notice-good{ background:#dcfce7; color:#14532d; }
-.notice-warn{ background:#fff7ed; color:#7c2d12; }
-.notice-bad{ background:#fee2e2; color:#7f1d1d; }
-
-/* Responsive */
-@media (max-width: 860px){
-  .aqi-section{ grid-template-columns: 1fr; justify-items:center; text-align:center; }
-  .aqi-banner{ width:100%; }
-}
-@media (max-width: 540px){
-  .pollutants{ grid-template-columns: repeat(2, 1fr); }
-}
-@media (max-width: 400px){
-  .pollutants{ grid-template-columns: 1fr; }
-  .container{ padding:16px; }
-}
+.tip:hover .tiptext{ visibility:visible; opacity:1 }
